@@ -18,5 +18,6 @@
 
     <ItemGroup>
         <None Include="build\**" Pack="true" PackagePath="build\" />
+        <None Include="README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 </Project>
