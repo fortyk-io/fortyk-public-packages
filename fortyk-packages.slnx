@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Monarch.Tooling.Tailwind/Monarch.Tooling.Tailwind.csproj" Id="472290cb-9ca9-483d-97db-454e51f4b6a7" />
+  </Folder>
+</Solution>
