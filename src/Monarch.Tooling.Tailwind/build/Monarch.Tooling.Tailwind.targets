@@ -1,0 +1,52 @@
+<Project>
+
+	<!-- Import default properties (NuGet auto-imports .props before the project, but for direct Import we need this) -->
+	<Import Project="Monarch.Tooling.Tailwind.props" Condition="'$(TailwindToolsVersion)' == ''" />
+
+	<!-- <Settings and download> -->
+	<Target Name="GetTailwindToolingInputs">
+		<PropertyGroup>
+			<TailwindDownloadName Condition="$([MSBuild]::IsOSPlatform('Windows'))">tailwindcss-windows-x64.exe</TailwindDownloadName>
+			<TailwindDownloadName Condition="$([MSBuild]::IsOSPlatform('Linux'))">tailwindcss-linux-x64</TailwindDownloadName>
+			<TailwindDownloadName Condition="$([MSBuild]::IsOSPlatform('OSX'))">tailwindcss-macos-x64</TailwindDownloadName>
+			<_TailwindExeExtension>$([System.IO.Path]::GetExtension($(TailwindDownloadName)))</_TailwindExeExtension>
+			<TailwindExeName>tailwindcss-$(TailwindToolsVersion)$(_TailwindExeExtension)</TailwindExeName>
+			<TailwindExePath>$([System.IO.Path]::Combine($(TailwindExeDir), $(TailwindExeName)))</TailwindExePath>
+		</PropertyGroup>
+	</Target>
+
+	<Target Name="AcquireTailwindTooling" DependsOnTargets="GetTailwindToolingInputs" Condition="!Exists('$(TailwindExePath)')">
+		<Message Importance="high" Text="Downloading Tailwind CLI v$(TailwindToolsVersion)" />
+		<DownloadFile SourceUrl="https://github.com/tailwindlabs/tailwindcss/releases/download/v$(TailwindToolsVersion)/$(TailwindDownloadName)" DestinationFileName="$(TailwindExeName)" DestinationFolder="$(TailwindExeDir)" />
+		<Exec Condition="!$([MSBuild]::IsOSPlatform('Windows'))" Command="chmod +x '$(TailwindExePath)'" />
+	</Target>
+	<!-- </Settings and download> -->
+
+	<!-- <Process CSS with Tailwind on build> -->
+	<Target Name="ProcessCssWithTailwindOnBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetTailwindToolingInputs; AcquireTailwindTooling">
+		<Message Importance="high" Text="Running Tailwind CLI" />
+		<Exec Condition="'$(Configuration)' != 'Release'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss)" />
+		<Exec Condition="'$(Configuration)' == 'Release'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) --minify" />
+	</Target>
+	<!-- </Process CSS with Tailwind on build> -->
+
+	<!-- <Run Tailwind in watch mode for development> -->
+	<Target Name="TailwindWatch" DependsOnTargets="GetTailwindToolingInputs; AcquireTailwindTooling">
+		<Message Importance="high" Text="Starting Tailwind CLI in watch mode..." />
+		<Exec WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) --watch" />
+	</Target>
+	<!-- </Run Tailwind in watch mode for development> -->
+
+	<!-- <Process scoped CSS with Tailwind> -->
+	<Target Name="ProcessScopedCssWithTailwindOnSave" AfterTargets="_GenerateScopedCssFiles" DependsOnTargets="GetTailwindToolingInputs; AcquireTailwindTooling">
+		<MSBuild Projects="$(MSBuildProjectFile)" Properties="CurrentScopedCssFile=%(_ScopedCssOutputs.Identity)" Targets="ProcessScopedCssFileWithTailwind">
+		</MSBuild>
+	</Target>
+
+	<Target Name="ProcessScopedCssFileWithTailwind" DependsOnTargets="GetTailwindToolingInputs">
+		<Message Importance="high" Text="Processing with Tailwind: $(CurrentScopedCssFile)" />
+		<Exec Command="$(TailwindExePath) -i $(CurrentScopedCssFile) -o $(CurrentScopedCssFile)" WorkingDirectory="$(MSBuildProjectDirectory)" EnvironmentVariables="TAILWIND_MODE=build" />
+	</Target>
+	<!-- </Process scoped CSS with Tailwind> -->
+
+</Project>
