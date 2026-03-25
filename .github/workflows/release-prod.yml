@@ -1,0 +1,96 @@
+name: Release Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 1.0.0, without the v prefix)'
+        required: true
+        type: string
+
+env:
+  DOTNET_VERSION: 10.0.x
+
+jobs:
+  # Layer 1: Validate inputs
+  validate-inputs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: main
+        fetch-depth: 0
+
+    - name: Validate version format
+      run: |
+        if ! echo "${{ inputs.version }}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$'; then
+          echo "::error::Invalid version format '${{ inputs.version }}'. Expected semver (e.g. 1.0.0)."
+          exit 1
+        fi
+
+    - name: Verify tag does not exist
+      run: |
+        git fetch --tags
+        if git rev-parse "v${{ inputs.version }}" >/dev/null 2>&1; then
+          echo "::error::Tag v${{ inputs.version }} already exists."
+          exit 1
+        fi
+
+  # Layer 2: Build, pack and push NuGet packages
+  build-and-push-nuget:
+    needs: validate-inputs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: main
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release -p:Version=${{ inputs.version }}
+
+    - name: Pack NuGet packages
+      run: dotnet pack --no-build --configuration Release --output ./nupkgs -p:PackageVersion=${{ inputs.version }}
+
+    - name: Push to NuGet.org
+      run: dotnet nuget push ./nupkgs/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+
+    - name: Push to GitHub Packages
+      run: dotnet nuget push ./nupkgs/*.nupkg --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+
+  # Layer 3: Create release (waits for NuGet publishing)
+  create-release:
+    needs: [build-and-push-nuget]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: main
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ inputs.version }}
+        name: v${{ inputs.version }}
+        target_commitish: main
+        generate_release_notes: true

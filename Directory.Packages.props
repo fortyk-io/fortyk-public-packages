@@ -1,0 +1,12 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    </PropertyGroup>
+    <ItemGroup>
+        <!-- Microsoft packages -->
+        <!-- Microsoft Orleans packages -->
+        <!-- Aspire -->
+        <!-- 3rd party packages -->
+    </ItemGroup>
+</Project>

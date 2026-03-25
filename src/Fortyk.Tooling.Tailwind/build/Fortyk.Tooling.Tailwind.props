@@ -1,0 +1,24 @@
+<Project>
+
+	<!--
+		Default properties for Tailwind CSS CLI integration.
+		All properties can be overridden in the consuming project before importing the targets.
+	-->
+	<PropertyGroup>
+		<!-- Tailwind CSS CLI version to download -->
+		<TailwindToolsVersion Condition="'$(TailwindToolsVersion)' == ''">4.2.1</TailwindToolsVersion>
+
+		<!-- Input CSS file path (relative to TailwindWorkingDirectory) -->
+		<TailwindInputCss Condition="'$(TailwindInputCss)' == ''">Styles/tailwind.css</TailwindInputCss>
+
+		<!-- Output CSS file path (relative to TailwindWorkingDirectory) -->
+		<TailwindOutputCss Condition="'$(TailwindOutputCss)' == ''">wwwroot/css/app.min.css</TailwindOutputCss>
+
+		<!-- Working directory for Tailwind CLI execution -->
+		<TailwindWorkingDirectory Condition="'$(TailwindWorkingDirectory)' == ''">$(MSBuildProjectDirectory)</TailwindWorkingDirectory>
+
+		<!-- Directory where the Tailwind CLI binary is stored -->
+		<TailwindExeDir Condition="'$(TailwindExeDir)' == ''">$([System.IO.Path]::Combine($(TailwindWorkingDirectory), ".tailwind"))</TailwindExeDir>
+	</PropertyGroup>
+
+</Project>
