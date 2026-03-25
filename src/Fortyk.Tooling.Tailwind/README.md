@@ -83,6 +83,10 @@ dotnet msbuild YourProject -t:TailwindWatch
 - No Node.js or npm is required — the standalone Tailwind CSS CLI is used directly
 - On Linux/macOS, the binary is automatically made executable after download
 
+## Disclaimer
+
+This package is an independent, community-driven project and is **not** affiliated with, endorsed by, or officially related to [Tailwind Labs Inc.](https://tailwindlabs.com/) or the Tailwind CSS brand. "Tailwind CSS" is a trademark of Tailwind Labs Inc. This package simply provides MSBuild tooling to download and invoke the official Tailwind CSS standalone CLI.
+
 ## License
 
 This package is licensed under the [MIT License](https://opensource.org/licenses/MIT).
