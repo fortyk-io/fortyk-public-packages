@@ -1,7 +1,7 @@
 <Project>
 
 	<!-- Import default properties (NuGet auto-imports .props before the project, but for direct Import we need this) -->
-	<Import Project="Monarch.Tooling.Tailwind.props" Condition="'$(TailwindToolsVersion)' == ''" />
+	<Import Project="Fortyk.Tooling.Tailwind.props" Condition="'$(TailwindToolsVersion)' == ''" />
 
 	<!-- <Settings and download> -->
 	<Target Name="GetTailwindToolingInputs">

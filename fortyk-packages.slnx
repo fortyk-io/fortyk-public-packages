@@ -9,6 +9,6 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/Monarch.Tooling.Tailwind/Monarch.Tooling.Tailwind.csproj" Id="472290cb-9ca9-483d-97db-454e51f4b6a7" />
+    <Project Path="src/Fortyk.Tooling.Tailwind/Fortyk.Tooling.Tailwind.csproj" Id="472290cb-9ca9-483d-97db-454e51f4b6a7" />
   </Folder>
 </Solution>

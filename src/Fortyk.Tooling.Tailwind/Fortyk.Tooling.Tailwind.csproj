@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <EnableNETAnalyzers>false</EnableNETAnalyzers>
+        <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+        <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+        <RunAnalyzers>false</RunAnalyzers>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <IsPackable>true</IsPackable>
+        <NoWarn>$(NoWarn);NU5128;CS2008</NoWarn>
+    </PropertyGroup>
+
+    <!-- NuGet package metadata -->
+    <PropertyGroup>
+        <PackageId>Fortyk.Tooling.Tailwind</PackageId>
+        <Authors>Fortyk</Authors>
+        <Company>Fortyk</Company>
+        <Description>MSBuild integration for Tailwind CSS CLI in .NET projects. Automatically downloads and runs the Tailwind CSS standalone CLI during build, with no Node.js or npm required.</Description>
+        <PackageTags>tailwindcss;tailwind;css;msbuild;blazor;dotnet;cli</PackageTags>
+        <PackageProjectUrl>https://github.com/fortyk-io/fortyk-packages</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/fortyk-io/fortyk-packages</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Copyright>Copyright (c) 2026 Fortyk</Copyright>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="build\**" Pack="true" PackagePath="build\" />
+        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
+</Project>

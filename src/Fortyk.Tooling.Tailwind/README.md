@@ -1,4 +1,4 @@
-# BlazorTailwindDemo.Tooling.Tailwind
+# Fortyk.Tooling.Tailwind
 
 MSBuild integration for [Tailwind CSS](https://tailwindcss.com/) CLI in .NET projects. Automatically downloads and runs the Tailwind CSS standalone CLI during build, with no Node.js or npm required.
 
@@ -12,26 +12,17 @@ MSBuild integration for [Tailwind CSS](https://tailwindcss.com/) CLI in .NET pro
 
 ## Installation
 
-### As a Project Reference (current)
-
-Import the props and targets files in your `.csproj`:
+Install the NuGet package:
 
 ```xml
-<Import Project="..\BlazorTailwindDemo.Tooling.Tailwind\build\BlazorTailwindDemo.Tooling.Tailwind.props" />
-<Import Project="..\BlazorTailwindDemo.Tooling.Tailwind\build\BlazorTailwindDemo.Tooling.Tailwind.targets" />
+<PackageReference Include="Fortyk.Tooling.Tailwind" Version="x.y.z" />
 ```
 
-### As a NuGet Package (future)
-
-```xml
-<PackageReference Include="BlazorTailwindDemo.Tooling.Tailwind" Version="x.y.z" />
-```
-
-When installed as a NuGet package, props and targets are imported automatically.
+When installed as a NuGet package, props and targets are imported automatically by MSBuild.
 
 ## Configuration
 
-All properties can be overridden in the consuming project **before** importing the targets (or in a `Directory.Build.props`).
+All properties can be overridden in the consuming project (or in a `Directory.Build.props`).
 
 | Property | Default | Description |
 |---|---|---|
@@ -57,8 +48,7 @@ All properties can be overridden in the consuming project **before** importing t
     <TailwindExeDir>$(SolutionDir).tailwind</TailwindExeDir>
   </PropertyGroup>
 
-  <Import Project="..\BlazorTailwindDemo.Tooling.Tailwind\build\BlazorTailwindDemo.Tooling.Tailwind.props" />
-  <Import Project="..\BlazorTailwindDemo.Tooling.Tailwind\build\BlazorTailwindDemo.Tooling.Tailwind.targets" />
+  <PackageReference Include="Fortyk.Tooling.Tailwind" Version="1.0.0" />
 
 </Project>
 ```
@@ -92,3 +82,7 @@ dotnet msbuild YourProject -t:TailwindWatch
 - The `.tailwind/` directory (where CLI binaries are stored) should be added to `.gitignore`
 - No Node.js or npm is required — the standalone Tailwind CSS CLI is used directly
 - On Linux/macOS, the binary is automatically made executable after download
+
+## License
+
+This package is licensed under the [MIT License](https://opensource.org/licenses/MIT).
