@@ -25,15 +25,15 @@
 	<!-- <Process CSS with Tailwind on build> -->
 	<Target Name="ProcessCssWithTailwindOnBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetTailwindToolingInputs; AcquireTailwindTooling">
 		<Message Importance="high" Text="Running Tailwind CLI" />
-		<Exec Condition="'$(Configuration)' != 'Release'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss)" />
-		<Exec Condition="'$(Configuration)' == 'Release'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) --minify" />
+		<Exec Condition="'$(Configuration)' != 'Release'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) $(TailwindExtraArgs)" />
+		<Exec Condition="'$(Configuration)' == 'Release'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) --minify $(TailwindExtraArgs)" />
 	</Target>
 	<!-- </Process CSS with Tailwind on build> -->
 
 	<!-- <Run Tailwind in watch mode for development> -->
 	<Target Name="TailwindWatch" DependsOnTargets="GetTailwindToolingInputs; AcquireTailwindTooling">
 		<Message Importance="high" Text="Starting Tailwind CLI in watch mode..." />
-		<Exec WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) --watch" />
+		<Exec WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) --watch $(TailwindExtraArgs)" />
 	</Target>
 	<!-- </Run Tailwind in watch mode for development> -->
 
@@ -45,7 +45,7 @@
 
 	<Target Name="ProcessScopedCssFileWithTailwind" DependsOnTargets="GetTailwindToolingInputs">
 		<Message Importance="high" Text="Processing with Tailwind: $(CurrentScopedCssFile)" />
-		<Exec Command="$(TailwindExePath) -i $(CurrentScopedCssFile) -o $(CurrentScopedCssFile)" WorkingDirectory="$(MSBuildProjectDirectory)" EnvironmentVariables="TAILWIND_MODE=build" />
+		<Exec Command="$(TailwindExePath) -i $(CurrentScopedCssFile) -o $(CurrentScopedCssFile) $(TailwindExtraArgs)" WorkingDirectory="$(MSBuildProjectDirectory)" EnvironmentVariables="TAILWIND_MODE=build" />
 	</Target>
 	<!-- </Process scoped CSS with Tailwind> -->
 

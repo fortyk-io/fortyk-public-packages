@@ -19,6 +19,9 @@
 
 		<!-- Directory where the Tailwind CLI binary is stored -->
 		<TailwindExeDir Condition="'$(TailwindExeDir)' == ''">$([System.IO.Path]::Combine($(TailwindWorkingDirectory), ".tailwind"))</TailwindExeDir>
+
+		<!-- Extra arguments to pass to the Tailwind CLI (e.g., additional flags) -->
+		<TailwindExtraArgs Condition="'$(TailwindExtraArgs)' == ''"></TailwindExtraArgs>
 	</PropertyGroup>
 
 </Project>

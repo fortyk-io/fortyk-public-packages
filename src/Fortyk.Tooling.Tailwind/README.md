@@ -31,6 +31,7 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
 | `TailwindOutputCss` | `wwwroot/css/app.min.css` | Output CSS file path (relative to `TailwindWorkingDirectory`) |
 | `TailwindWorkingDirectory` | `$(MSBuildProjectDirectory)` | Working directory for Tailwind CLI execution |
 | `TailwindExeDir` | `$(TailwindWorkingDirectory)/.tailwind` | Directory where the CLI binary is stored |
+| `TailwindExtraArgs` | *(empty)* | Extra arguments to pass to the Tailwind CLI |
 
 ### Example: Custom Configuration
 
@@ -60,6 +61,83 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
 | `ProcessCssWithTailwindOnBuild` | Runs before build. Processes CSS with Tailwind (minified in Release). |
 | `TailwindWatch` | Starts Tailwind in watch mode for live CSS updates during development. |
 | `ProcessScopedCssWithTailwindOnSave` | Processes Blazor scoped CSS files after they are generated. |
+
+## Non-Standard File Extensions (e.g., `.razor`)
+
+By default, Tailwind CSS v4 automatically detects utility classes in common file types (`.html`, `.js`, `.ts`, `.jsx`, `.tsx`, etc.). For non-standard file extensions like `.razor` (Blazor), `.vue`, or `.svelte`, you need to explicitly tell Tailwind where to look for classes.
+
+### Using `@source` (Recommended)
+
+Add `@source` directives in your input CSS file (e.g., `Styles/tailwind.css`) to specify additional file paths and extensions:
+
+```css
+@import "tailwindcss";
+
+/* Scan all .razor files in the project */
+@source "../**/*.razor";
+```
+
+Multiple `@source` directives can be combined:
+
+```css
+@import "tailwindcss";
+
+@source "../Components/**/*.razor";
+@source "../Pages/**/*.razor";
+@source "../Shared/**/*.razor";
+```
+
+### Using `tailwind.config.js`
+
+For more complex configurations, you can use a JavaScript config file. Create a `tailwind.config.js` in your project root:
+
+```js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './Pages/**/*.razor',
+    './Components/**/*.razor',
+    './Shared/**/*.razor',
+    './wwwroot/**/*.html',
+  ],
+}
+```
+
+Then reference it in your input CSS file using the `@config` directive:
+
+```css
+@import "tailwindcss";
+@config "../tailwind.config.js";
+```
+
+> **Note:** In Tailwind CSS v4, configuration is CSS-first. The `@config` directive loads a JavaScript config file for advanced scenarios such as custom plugins or complex content paths. For simple file extension additions, `@source` is preferred.
+
+### Full Blazor Example
+
+Here is a complete example for a Blazor project:
+
+**`Styles/tailwind.css`**:
+```css
+@import "tailwindcss";
+@source "../**/*.razor";
+```
+
+**Project file (`.csproj`)**:
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fortyk.Tooling.Tailwind" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
+```
+
+With this setup, Tailwind automatically scans all `.razor` files for utility classes during build.
 
 ### Watch Mode
 
