@@ -6,7 +6,7 @@
 	-->
 	<PropertyGroup>
 		<!-- Tailwind CSS CLI version to download -->
-		<TailwindToolsVersion Condition="'$(TailwindToolsVersion)' == ''">4.2.1</TailwindToolsVersion>
+		<TailwindToolsVersion Condition="'$(TailwindToolsVersion)' == ''">4.2.4</TailwindToolsVersion>
 
 		<!-- Input CSS file path (relative to TailwindWorkingDirectory) -->
 		<TailwindInputCss Condition="'$(TailwindInputCss)' == ''">Styles/tailwind.css</TailwindInputCss>
