@@ -26,7 +26,7 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
 
 | Property | Default | Description |
 |---|---|---|
-| `TailwindToolsVersion` | `4.2.1` | Version of the Tailwind CSS CLI to download |
+| `TailwindToolsVersion` | `4.2.3` | Version of the Tailwind CSS CLI to download |
 | `TailwindInputCss` | `Styles/tailwind.css` | Input CSS file path (relative to `TailwindWorkingDirectory`) |
 | `TailwindOutputCss` | `wwwroot/css/app.min.css` | Output CSS file path (relative to `TailwindWorkingDirectory`) |
 | `TailwindWorkingDirectory` | `$(MSBuildProjectDirectory)` | Working directory for Tailwind CLI execution |
