@@ -11,8 +11,17 @@
 		<!-- Input CSS file path (relative to TailwindWorkingDirectory) -->
 		<TailwindInputCss Condition="'$(TailwindInputCss)' == ''">Styles/tailwind.css</TailwindInputCss>
 
-		<!-- Output CSS file path (relative to TailwindWorkingDirectory) -->
-		<TailwindOutputCss Condition="'$(TailwindOutputCss)' == ''">wwwroot/css/app.min.css</TailwindOutputCss>
+		<!-- Output CSS file path (non-minified, relative to TailwindWorkingDirectory) -->
+		<TailwindOutputCss Condition="'$(TailwindOutputCss)' == ''">wwwroot/css/app.css</TailwindOutputCss>
+
+		<!-- Output CSS file path (minified, relative to TailwindWorkingDirectory) -->
+		<TailwindOutputCssMinified Condition="'$(TailwindOutputCssMinified)' == ''">wwwroot/css/app.min.css</TailwindOutputCssMinified>
+
+		<!-- Whether to generate the non-minified CSS file (default: true) -->
+		<TailwindGenerateUnminified Condition="'$(TailwindGenerateUnminified)' == ''">true</TailwindGenerateUnminified>
+
+		<!-- Whether to generate the minified CSS file (default: true) -->
+		<TailwindGenerateMinified Condition="'$(TailwindGenerateMinified)' == ''">true</TailwindGenerateMinified>
 
 		<!-- Working directory for Tailwind CLI execution -->
 		<TailwindWorkingDirectory Condition="'$(TailwindWorkingDirectory)' == ''">$(MSBuildProjectDirectory)</TailwindWorkingDirectory>
