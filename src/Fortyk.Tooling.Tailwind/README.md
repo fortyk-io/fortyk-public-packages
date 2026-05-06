@@ -6,7 +6,8 @@ MSBuild integration for [Tailwind CSS](https://tailwindcss.com/) CLI in .NET pro
 
 - **Automatic CLI download**: Downloads the correct Tailwind CSS CLI binary for your OS on first build
 - **Version-stamped binaries**: The downloaded CLI binary includes the version number in its filename (e.g., `tailwindcss-4.2.4`), allowing multiple versions to coexist in shared directories
-- **Build integration**: Processes your CSS files with Tailwind during build (with minification in Release mode)
+- **Minified and non-minified output**: Generates both minified and non-minified CSS files with independent output paths, each individually toggleable
+- **Build integration**: Processes your CSS files with Tailwind during build
 - **Watch mode**: Supports Tailwind watch mode for development
 - **Scoped CSS support**: Automatically processes Blazor scoped CSS files
 
@@ -28,10 +29,15 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
 |---|---|---|
 | `TailwindToolsVersion` | `4.2.4` | Version of the Tailwind CSS CLI to download |
 | `TailwindInputCss` | `Styles/tailwind.css` | Input CSS file path (relative to `TailwindWorkingDirectory`) |
-| `TailwindOutputCss` | `wwwroot/css/app.min.css` | Output CSS file path (relative to `TailwindWorkingDirectory`) |
+| `TailwindOutputCss` | `wwwroot/css/app.css` | Non-minified output CSS file path (relative to `TailwindWorkingDirectory`) |
+| `TailwindOutputCssMinified` | `wwwroot/css/app.min.css` | Minified output CSS file path (relative to `TailwindWorkingDirectory`) |
+| `TailwindGenerateUnminified` | `true` | Whether to generate the non-minified CSS file |
+| `TailwindGenerateMinified` | `true` | Whether to generate the minified CSS file |
 | `TailwindWorkingDirectory` | `$(MSBuildProjectDirectory)` | Working directory for Tailwind CLI execution |
 | `TailwindExeDir` | `$(TailwindWorkingDirectory)/.tailwind` | Directory where the CLI binary is stored |
 | `TailwindExtraArgs` | *(empty)* | Extra arguments to pass to the Tailwind CLI |
+
+By default, both the minified and non-minified CSS files are generated on every build. You can disable either output independently using the `TailwindGenerateUnminified` and `TailwindGenerateMinified` flags.
 
 ### Example: Custom Configuration
 
@@ -44,7 +50,8 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
     <TailwindToolsVersion>4.3.0</TailwindToolsVersion>
     <!-- Custom input/output paths -->
     <TailwindInputCss>Styles/main.css</TailwindInputCss>
-    <TailwindOutputCss>wwwroot/css/site.min.css</TailwindOutputCss>
+    <TailwindOutputCss>wwwroot/css/site.css</TailwindOutputCss>
+    <TailwindOutputCssMinified>wwwroot/css/site.min.css</TailwindOutputCssMinified>
     <!-- Store CLI binary in a shared location -->
     <TailwindExeDir>$(SolutionDir).tailwind</TailwindExeDir>
   </PropertyGroup>
@@ -52,6 +59,24 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
   <PackageReference Include="Fortyk.Tooling.Tailwind" Version="1.0.0" />
 
 </Project>
+```
+
+### Example: Only Generate Minified CSS
+
+```xml
+<PropertyGroup>
+  <TailwindGenerateUnminified>false</TailwindGenerateUnminified>
+  <TailwindGenerateMinified>true</TailwindGenerateMinified>
+</PropertyGroup>
+```
+
+### Example: Only Generate Non-Minified CSS
+
+```xml
+<PropertyGroup>
+  <TailwindGenerateUnminified>true</TailwindGenerateUnminified>
+  <TailwindGenerateMinified>false</TailwindGenerateMinified>
+</PropertyGroup>
 ```
 
 ## MSBuild Targets
@@ -151,9 +176,9 @@ dotnet msbuild YourProject -t:TailwindWatch
 
 1. **On first build**, the CLI binary is downloaded from the [Tailwind CSS GitHub releases](https://github.com/tailwindlabs/tailwindcss/releases) to the `TailwindExeDir` directory
 2. The binary is named with a version suffix (e.g., `tailwindcss-4.2.1` or `tailwindcss-4.2.1.exe` on Windows), so different projects can use different Tailwind versions without conflicts
-3. On subsequent builds, the download is skipped if the versioned binary already exists
-4. During build, the CLI processes the input CSS and generates the output CSS
-5. In Release configuration, the `--minify` flag is automatically applied
+3. On subsequent builds, the download is skipped if the versioned binary already exists (a log message confirms the CLI is already present)
+4. During build, the CLI processes the input CSS and generates both the non-minified (`TailwindOutputCss`) and minified (`TailwindOutputCssMinified`) output CSS files
+5. Either output can be disabled independently using `TailwindGenerateUnminified` and `TailwindGenerateMinified` flags
 
 ## Notes
 
