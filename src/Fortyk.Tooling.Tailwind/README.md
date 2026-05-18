@@ -5,7 +5,7 @@ MSBuild integration for [Tailwind CSS](https://tailwindcss.com/) CLI in .NET pro
 ## Features
 
 - **Automatic CLI download**: Downloads the correct Tailwind CSS CLI binary for your OS on first build
-- **Version-stamped binaries**: The downloaded CLI binary includes the version number in its filename (e.g., `tailwindcss-4.2.4`), allowing multiple versions to coexist in shared directories
+- **Version-stamped binaries**: The downloaded CLI binary includes the version number in its filename (e.g., `tailwindcss-4.3.0`), allowing multiple versions to coexist in shared directories
 - **Minified and non-minified output**: Generates both minified and non-minified CSS files with independent output paths, each individually toggleable
 - **Build integration**: Processes your CSS files with Tailwind during build
 - **Watch mode**: Supports Tailwind watch mode for development
@@ -27,7 +27,7 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
 
 | Property | Default | Description |
 |---|---|---|
-| `TailwindToolsVersion` | `4.2.4` | Version of the Tailwind CSS CLI to download |
+| `TailwindToolsVersion` | `4.3.0` | Version of the Tailwind CSS CLI to download |
 | `TailwindInputCss` | `Styles/tailwind.css` | Input CSS file path (relative to `TailwindWorkingDirectory`) |
 | `TailwindOutputCss` | `wwwroot/css/app.css` | Non-minified output CSS file path (relative to `TailwindWorkingDirectory`) |
 | `TailwindOutputCssMinified` | `wwwroot/css/app.min.css` | Minified output CSS file path (relative to `TailwindWorkingDirectory`) |
