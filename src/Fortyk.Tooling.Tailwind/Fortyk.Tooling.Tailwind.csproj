@@ -22,8 +22,8 @@
         <Company>Fortyk</Company>
         <Description>MSBuild integration for Tailwind CSS CLI in .NET projects. Automatically downloads and runs the Tailwind CSS standalone CLI during build, with no Node.js or npm required.</Description>
         <PackageTags>tailwindcss;tailwind;css;msbuild;blazor;dotnet;cli</PackageTags>
-        <PackageProjectUrl>https://github.com/fortyk-io/fortyk-packages</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/fortyk-io/fortyk-packages</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/fortyk-io/fortyk-public-packages</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/fortyk-io/fortyk-public-packages</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
