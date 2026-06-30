@@ -30,18 +30,18 @@
 	<Target Name="ProcessCssWithTailwindOnBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetTailwindToolingInputs; AcquireTailwindTooling; LogTailwindToolingAlreadyPresent">
 		<!-- Generate non-minified CSS -->
 		<Message Condition="'$(TailwindGenerateUnminified)' == 'true'" Importance="high" Text="Running Tailwind CLI (non-minified output: $(TailwindOutputCss))" />
-		<Exec Condition="'$(TailwindGenerateUnminified)' == 'true'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) $(TailwindExtraArgs)" />
+		<Exec Condition="'$(TailwindGenerateUnminified)' == 'true'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="&quot;$(TailwindExePath)&quot; -i &quot;$(TailwindInputCss)&quot; -o &quot;$(TailwindOutputCss)&quot; $(TailwindExtraArgs)" />
 
 		<!-- Generate minified CSS -->
 		<Message Condition="'$(TailwindGenerateMinified)' == 'true'" Importance="high" Text="Running Tailwind CLI (minified output: $(TailwindOutputCssMinified))" />
-		<Exec Condition="'$(TailwindGenerateMinified)' == 'true'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCssMinified) --minify $(TailwindExtraArgs)" />
+		<Exec Condition="'$(TailwindGenerateMinified)' == 'true'" WorkingDirectory="$(TailwindWorkingDirectory)" Command="&quot;$(TailwindExePath)&quot; -i &quot;$(TailwindInputCss)&quot; -o &quot;$(TailwindOutputCssMinified)&quot; --minify $(TailwindExtraArgs)" />
 	</Target>
 	<!-- </Process CSS with Tailwind on build> -->
 
 	<!-- <Run Tailwind in watch mode for development> -->
 	<Target Name="TailwindWatch" DependsOnTargets="GetTailwindToolingInputs; AcquireTailwindTooling; LogTailwindToolingAlreadyPresent">
 		<Message Importance="high" Text="Starting Tailwind CLI in watch mode..." />
-		<Exec WorkingDirectory="$(TailwindWorkingDirectory)" Command="$(TailwindExePath) -i $(TailwindInputCss) -o $(TailwindOutputCss) --watch $(TailwindExtraArgs)" />
+		<Exec WorkingDirectory="$(TailwindWorkingDirectory)" Command="&quot;$(TailwindExePath)&quot; -i &quot;$(TailwindInputCss)&quot; -o &quot;$(TailwindOutputCss)&quot; --watch $(TailwindExtraArgs)" />
 	</Target>
 	<!-- </Run Tailwind in watch mode for development> -->
 
@@ -53,7 +53,7 @@
 
 	<Target Name="ProcessScopedCssFileWithTailwind" DependsOnTargets="GetTailwindToolingInputs">
 		<Message Importance="high" Text="Processing with Tailwind: $(CurrentScopedCssFile)" />
-		<Exec Command="$(TailwindExePath) -i $(CurrentScopedCssFile) -o $(CurrentScopedCssFile) $(TailwindExtraArgs)" WorkingDirectory="$(MSBuildProjectDirectory)" EnvironmentVariables="TAILWIND_MODE=build" />
+		<Exec Command="&quot;$(TailwindExePath)&quot; -i &quot;$(CurrentScopedCssFile)&quot; -o &quot;$(CurrentScopedCssFile)&quot; $(TailwindExtraArgs)" WorkingDirectory="$(MSBuildProjectDirectory)" EnvironmentVariables="TAILWIND_MODE=build" />
 	</Target>
 	<!-- </Process scoped CSS with Tailwind> -->
 
