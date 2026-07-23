@@ -5,7 +5,7 @@ MSBuild integration for [Tailwind CSS](https://tailwindcss.com/) CLI in .NET pro
 ## Features
 
 - **Automatic CLI download**: Downloads the correct Tailwind CSS CLI binary for your OS on first build
-- **Version-stamped binaries**: The downloaded CLI binary includes the version number in its filename (e.g., `tailwindcss-4.3.0`), allowing multiple versions to coexist in shared directories
+- **Version-stamped binaries**: The downloaded CLI binary includes the version number in its filename (e.g., `tailwindcss-4.3.3`), allowing multiple versions to coexist in shared directories
 - **Minified and non-minified output**: Generates both minified and non-minified CSS files with independent output paths, each individually toggleable
 - **Build integration**: Processes your CSS files with Tailwind during build
 - **Watch mode**: Supports Tailwind watch mode for development
@@ -27,7 +27,7 @@ All properties can be overridden in the consuming project (or in a `Directory.Bu
 
 | Property | Default | Description |
 |---|---|---|
-| `TailwindToolsVersion` | `4.3.0` | Version of the Tailwind CSS CLI to download |
+| `TailwindToolsVersion` | `4.3.3` | Version of the Tailwind CSS CLI to download |
 | `TailwindInputCss` | `Styles/tailwind.css` | Input CSS file path (relative to `TailwindWorkingDirectory`) |
 | `TailwindOutputCss` | `wwwroot/css/app.css` | Non-minified output CSS file path (relative to `TailwindWorkingDirectory`) |
 | `TailwindOutputCssMinified` | `wwwroot/css/app.min.css` | Minified output CSS file path (relative to `TailwindWorkingDirectory`) |
@@ -47,7 +47,7 @@ By default, both the minified and non-minified CSS files are generated on every 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <!-- Override Tailwind CSS version -->
-    <TailwindToolsVersion>4.3.0</TailwindToolsVersion>
+    <TailwindToolsVersion>4.3.3</TailwindToolsVersion>
     <!-- Custom input/output paths -->
     <TailwindInputCss>Styles/main.css</TailwindInputCss>
     <TailwindOutputCss>wwwroot/css/site.css</TailwindOutputCss>
@@ -175,7 +175,7 @@ dotnet msbuild YourProject -t:TailwindWatch
 ## How It Works
 
 1. **On first build**, the CLI binary is downloaded from the [Tailwind CSS GitHub releases](https://github.com/tailwindlabs/tailwindcss/releases) to the `TailwindExeDir` directory
-2. The binary is named with a version suffix (e.g., `tailwindcss-4.2.1` or `tailwindcss-4.2.1.exe` on Windows), so different projects can use different Tailwind versions without conflicts
+2. The binary is named with a version suffix (e.g., `tailwindcss-4.3.3` or `tailwindcss-4.3.3.exe` on Windows), so different projects can use different Tailwind versions without conflicts
 3. On subsequent builds, the download is skipped if the versioned binary already exists (a log message confirms the CLI is already present)
 4. During build, the CLI processes the input CSS and generates both the non-minified (`TailwindOutputCss`) and minified (`TailwindOutputCssMinified`) output CSS files
 5. Either output can be disabled independently using `TailwindGenerateUnminified` and `TailwindGenerateMinified` flags
