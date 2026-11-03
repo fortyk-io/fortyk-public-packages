@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- Test code: public test classes, underscores in test names, no ConfigureAwait, string literals in asserts -->
+    <NoWarn>$(NoWarn);CA1515;CA1707;CA2007;CA1303;CA1812;CA1861</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- Tell the tests where the tooling's build/ folder lives, so they always exercise the current source -->
+  <ItemGroup>
+    <AssemblyMetadata Include="ToolingBuildDir" Value="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../src/Fortyk.Tooling.Tailwind/build/'))" />
+  </ItemGroup>
+
+</Project>
