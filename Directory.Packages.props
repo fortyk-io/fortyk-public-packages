@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
         <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
@@ -8,5 +8,8 @@
         <!-- Microsoft Orleans packages -->
         <!-- Aspire -->
         <!-- 3rd party packages -->
+        <!-- Test packages -->
+        <PackageVersion Include="xunit.v3" Version="4.0.2" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
     </ItemGroup>
 </Project>

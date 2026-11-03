@@ -16,6 +16,7 @@ See each package's own README for installation and configuration details.
 |---|---|
 | `src/` | Source for the publishable packages |
 | `samples/` | Sample applications demonstrating package usage |
+| `tests/` | Integration tests that build throwaway projects against the tooling and check its behaviour as the MSBuild properties change |
 
 ## License
 

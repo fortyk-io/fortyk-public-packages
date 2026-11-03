@@ -14,4 +14,7 @@
   <Folder Name="/samples/">
     <Project Path="samples/SampleApp/SampleApp.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Fortyk.Tooling.Tailwind.IntegrationTests/Fortyk.Tooling.Tailwind.IntegrationTests.csproj" />
+  </Folder>
 </Solution>
