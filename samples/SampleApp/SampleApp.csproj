@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    This sample imports the Tailwind tooling straight from the source tree so it always
+    exercises the current version of the package.
+
+    In your own project, replace the two imports below with a package reference:
+
+      <PackageReference Include="Fortyk.Tooling.Tailwind" Version="x.y.z" />
+
+    Defaults (overridable here): input Styles/tailwind.css, output wwwroot/css/app.css
+    and wwwroot/css/app.min.css, CLI downloaded to .tailwind/ in the project directory.
+  -->
+  <Import Project="..\..\src\Fortyk.Tooling.Tailwind\build\Fortyk.Tooling.Tailwind.props" />
+  <Import Project="..\..\src\Fortyk.Tooling.Tailwind\build\Fortyk.Tooling.Tailwind.targets" />
+
+</Project>
