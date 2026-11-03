@@ -47,6 +47,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write # required for NuGet.org Trusted Publishing (OIDC)
 
     steps:
     - name: Checkout repository
@@ -68,8 +69,15 @@ jobs:
     - name: Pack NuGet packages
       run: dotnet pack --no-build --configuration Release --output ./nupkgs -p:PackageVersion=${{ inputs.version }}
 
+    # Exchange the GitHub OIDC token for a short-lived (1h) NuGet.org API key
+    - name: NuGet login (Trusted Publishing)
+      uses: NuGet/login@v1
+      id: nuget-login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Push to NuGet.org
-      run: dotnet nuget push ./nupkgs/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+      run: dotnet nuget push ./nupkgs/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --skip-duplicate
 
     - name: Push to GitHub Packages
       run: dotnet nuget push ./nupkgs/*.nupkg --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
